@@ -1,0 +1,3 @@
+basically everything right now
+lock selling pages and only have minting pages for some time (initial minting-only state of website)
+make a 404 pages

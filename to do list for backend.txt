@@ -1,0 +1,6 @@
+NFTMarket.sol: add some more properties for marketitems and sync with event marketitemcreated
+NFTMarket.sol: add option to edit price (by deleting and relisting items) and delete items
+NFTMarket.sol: add option for owner to make token "forsale" true/false and also edit this property
+NFTMarket.sol: add true/false for resellable (for initial owner)
+
+do full test of all features of app while on rinkeby test net, specially the liquidate functions and lokewise
