@@ -37,7 +37,8 @@ yarn-error.log*
 .secret
 
 #to do files
-to do list for backend.txt
+to_do_list_for_backend.txt
+to_do_list_for_frontend.txt
 
 node_modules
 .env
