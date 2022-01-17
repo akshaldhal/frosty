@@ -33,7 +33,7 @@ yarn-error.log*
 # vercel
 .vercel
 
-#temporary wallet key
+#secret file for temporary eth wallet
 .secret
 
 node_modules
