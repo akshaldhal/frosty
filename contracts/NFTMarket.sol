@@ -45,7 +45,9 @@ contract NFTMarket is ReentrancyGuard {
     }
 
     function liquidate() payable public {
-        payable(networkAdd).transfer(0.001 ether);
+        if (msg.sender == networkAdd){
+          payable(networkAdd).transfer(0.01 ether);
+        }
     }
 
     function createMarketItem(
