@@ -36,6 +36,9 @@ yarn-error.log*
 #secret file for temporary eth wallet
 .secret
 
+#to do files
+to do list for backend.txt
+
 node_modules
 .env
 coverage
