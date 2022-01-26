@@ -55,7 +55,7 @@ contract NFTMarket is ReentrancyGuard {
     uint256 tokenId,
     uint256 price
   ) public payable nonReentrant {
-    require(price > 0, "Sellign price must be greater than 0 eth");
+    require(price > 0.5 ether, "Sellign price must be greater than 0.5 eth");
     require((msg.value) >= 0.005 ether, "Listing price is 0.005 wth");
 
     _itemIds.increment();
