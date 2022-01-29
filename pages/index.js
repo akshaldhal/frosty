@@ -9,7 +9,7 @@ import {
 } from '../config'
 
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
-import Market from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json'
+import NFTMarket from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json'
 
 export default function Home() {
   const [nfts, setNfts] = useState([])
@@ -19,9 +19,9 @@ export default function Home() {
   }, [])
   async function loadNFTs() {
     /* create a generic provider and query for unsold market items */
-    const provider = new ethers.providers.JsonRpcProvider()
+    const provider = new ethers.providers.JsonRpcProvider('https://rinkeby-light.eth.linkpool.io/')
     const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
-    const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, provider)
+    const marketContract = new ethers.Contract(nftmarketaddress, NFTMarket.abi, provider)
     const data = await marketContract.fetchMarketItems()
 
     /*
@@ -52,7 +52,7 @@ export default function Home() {
     const connection = await web3Modal.connect()
     const provider = new ethers.providers.Web3Provider(connection)
     const signer = provider.getSigner()
-    const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
+    const contract = new ethers.Contract(nftmarketaddress, NFTMarket.abi, signer)
 
     /* user will be prompted to pay the asking proces to complete the transaction */
     const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')   
