@@ -1,3 +1,4 @@
+/* pages/index.js */
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
@@ -61,17 +62,9 @@ export default function Home() {
     await transaction.wait()
     loadNFTs()
   }
-  if (loadingState === 'not-loaded') return (
-  <div className="anim_loader_in">
-  <img className="anim_loader_image_in" src='logo2.png'></img>
-</div>
-)
   if (loadingState === 'loaded' && !nfts.length) return (<h1 className="px-20 py-10 text-3xl">No items in marketplace</h1>)
   return (
     <body className="bg-slate-300">
-    <div className="anim_loader_out">
-        <img className="anim_loader_image_out" src='logo2.png'></img>
-    </div>
     <div className="flex justify-center">
       <div className="px-4" style={{ maxWidth: '1600px' }}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
