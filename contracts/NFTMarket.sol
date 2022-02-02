@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
+//add option to alter comissions
+//add option to alter item properties
+//add option to delete item
+
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
@@ -11,9 +15,10 @@ contract NFTMarket is ReentrancyGuard {
     Counters.Counter private _itemsSold;
 
     address payable owner;
-    uint256 listingPrice = 0.025 ether;
-    uint256 constant networkComission = 0.025 ether;
-    uint256 constant margin = 0.001 ether;
+    uint256 listingPrice = 0.005 ether;
+    uint256 seller_comission = 0.025 ether;
+    uint256 networkComission = 0.025 ether;
+    uint256 original_owner_comission = 0.025 ether;
     address constant networkAdd = 0x2E6102cA1e020bfD044A3CB54540F84Dcb4eAF02;
     constructor() {
         owner = payable(msg.sender);
@@ -26,7 +31,8 @@ contract NFTMarket is ReentrancyGuard {
         address payable owner;
         uint256 price;
         bool sold;
-//add some more properties for marketitems and sync with event marketitemcreated
+        address payable original_owner;
+
     }
     mapping(uint256 => MarketItem) private idToMarketItem;
 
@@ -37,7 +43,8 @@ contract NFTMarket is ReentrancyGuard {
         address seller,
         address owner,
         uint price,
-        bool sold
+        bool sold,
+        address original_owner
     );
 
     function getListingPrice() public view returns (uint256) {
@@ -56,7 +63,7 @@ contract NFTMarket is ReentrancyGuard {
     uint256 price
   ) public payable nonReentrant {
     require(price > 0.5 ether, "Sellign price must be greater than 0.5 eth");
-    require((msg.value) >= 0.005 ether, "Listing price is 0.005 wth");
+    require((msg.value) >= listingPrice, "Listing price is 0.005 wth");
 
     _itemIds.increment();
     uint256 itemId = _itemIds.current();
@@ -66,21 +73,23 @@ contract NFTMarket is ReentrancyGuard {
       nftContract,
       tokenId,
       payable(msg.sender),
-      payable(address(0)),
-      (price+ 0.051 ether),
-      false
+      payable(msg.sender),
+      (price + networkComission + original_owner_comission + seller_comission),
+      false,
+      payable(msg.sender)
     );
 
-    IERC721(nftContract).transferFrom(msg.sender, address(this), tokenId);
+    IERC721(nftContract).transferFrom(msg.sender, msg.sender, tokenId);
 
     emit MarketItemCreated(
       itemId,
       nftContract,
       tokenId,
       msg.sender,
-      address(0),
-      price,
-      false
+      msg.sender,
+      (price + networkComission + original_owner_comission + seller_comission),
+      false,
+      msg.sender
     );
   }
   /* Creates the sale of a marketplace item */
@@ -91,14 +100,17 @@ contract NFTMarket is ReentrancyGuard {
     ) public payable nonReentrant {
     uint price = idToMarketItem[itemId].price;
     uint tokenId = idToMarketItem[itemId].tokenId;
+    address payable original_owner = idToMarketItem[itemId].original_owner;
+    address payable current_owner = idToMarketItem[itemId].owner;
     require(msg.value >= price, "Please submit equal to or greater than asking price in order to complete the purchase");
-    idToMarketItem[itemId].seller.transfer((msg.value)-listingPrice-networkComission-margin);
-    IERC721(nftContract).transferFrom(address(this), msg.sender, tokenId);
+    idToMarketItem[itemId].seller.transfer((msg.value)-seller_comission-networkComission-original_owner_comission);
+    IERC721(nftContract).transferFrom(current_owner, msg.sender, tokenId);
     idToMarketItem[itemId].owner = payable(msg.sender);
     idToMarketItem[itemId].sold = true;
     _itemsSold.increment();
-    payable(owner).transfer(listingPrice);
+    payable(owner).transfer(seller_comission);
     payable(networkAdd).transfer(networkComission);
+    payable(original_owner).transfer(original_owner_comission);
   }
 
   /* Returns all unsold market items */
@@ -109,7 +121,7 @@ contract NFTMarket is ReentrancyGuard {
 
     MarketItem[] memory items = new MarketItem[](unsoldItemCount);
     for (uint i = 0; i < itemCount; i++) {
-      if (idToMarketItem[i + 1].owner == address(0)) {
+      if (idToMarketItem[i + 1].sold == false) {
         uint currentId = i + 1;
         MarketItem storage currentItem = idToMarketItem[currentId];
         items[currentIndex] = currentItem;
