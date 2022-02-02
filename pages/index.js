@@ -67,7 +67,12 @@ export default function Home() {
   <img className="anim_loader_image_in" src='logo2.png'></img>
 </div>
 )
-  if (loadingState === 'loaded' && !nfts.length) return (<h1 className="px-20 py-10 text-3xl">No items in marketplace</h1>)
+  if (loadingState === 'loaded' && !nfts.length) return (
+  <div>
+  <div className="anim_loader_out">
+  <img className="anim_loader_image_out" src='logo2.png'></img>
+  </div>
+  <h1 className="px-20 py-10 text-3xl">No items in marketplace</h1></div>)
   return (
     <body className="bg-slate-300">
     <div className="anim_loader_out">
