@@ -13,10 +13,10 @@
 .anim_loader_image_in{
   opacity: 1;
   position: absolute;
-  top: 27%;
-  left: 40%;
-  height: 40%;
-  width: auto;
+  top: 25%;
+  left: 37%;
+  height: auto;
+  width: 25%;
   z-index: 10;
   animation-name: reveal_in;
   animation-duration: 2s;
@@ -43,10 +43,10 @@
   .anim_loader_image_out{
     opacity: 0;
     position: absolute;
-    top: 27%;
-    left: 40%;
-    height: 40%;
-    width: auto;
+    top: 25%;
+    left: 37%;
+    height: auto;
+    width: 25%;
     z-index: 10;
     animation-name: reveal_out;
     animation-duration: 2s;
