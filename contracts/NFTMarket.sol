@@ -4,6 +4,15 @@ pragma solidity ^0.8.4;
 //add option to alter comissions
 //add option to alter item properties
 //add option to delete item
+//set listing price to 0 eth
+//add functions to edit listingprice, nrteorkcomission(MIGHT cause problem during transactions... might not.. check achhe se) etc.
+//add 'category' to item data thing and a sorting mechanism to website
+//minimum sp for an item: 0.2 eth
+//code auction and collection features
+
+//TEST DOING TRANSACTION FROM ANOTHER NETWORK, goreli or something
+
+//using firebase for user data management OR fixed file
 
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
