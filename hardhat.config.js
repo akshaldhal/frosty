@@ -8,14 +8,6 @@ module.exports = {
     hardhat:{
       chainId: 1337
     },
-    mumbai: {
-      url: 'https://rpc-mumbai.matic.today',
-      accounts: [privateKey]
-    },
-    mainnet: {
-      url: 'https://polygon-rpc.com/',
-      accounts: [privateKey]
-    },
     ethmainnet: {
       url: 'https://main-light.eth.linkpool.io/',
       accounts: [privateKey]
