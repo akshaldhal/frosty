@@ -71,7 +71,7 @@ contract NFTMarket is ReentrancyGuard {
     uint256 tokenId,
     uint256 price
   ) public payable nonReentrant {
-    require(price > 0.5 ether, "Sellign price must be greater than 0.5 eth");
+    require(price > 0.1 ether, "Sellign price must be greater than 0.5 eth");
     require((msg.value) >= listingPrice, "Listing price is 0.005 wth");
 
     _itemIds.increment();
@@ -112,7 +112,11 @@ contract NFTMarket is ReentrancyGuard {
     address payable original_owner = idToMarketItem[itemId].original_owner;
     address payable current_owner = idToMarketItem[itemId].owner;
     require(msg.value >= price, "Please submit equal to or greater than asking price in order to complete the purchase");
-    idToMarketItem[itemId].seller.transfer((msg.value)-seller_comission-networkComission-original_owner_comission);
+    uint256 tmp = msg.value;
+    tmp = tmp - seller_comission;
+    tmp = tmp - networkComission;
+    tmp = tmp - original_owner_comission;
+    idToMarketItem[itemId].seller.transfer(tmp);
     IERC721(nftContract).transferFrom(current_owner, msg.sender, tokenId);
     idToMarketItem[itemId].owner = payable(msg.sender);
     idToMarketItem[itemId].sold = true;
