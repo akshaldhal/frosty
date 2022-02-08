@@ -15,6 +15,10 @@ module.exports = {
     ethrinkeby: {
       url: 'https://rinkeby-light.eth.linkpool.io/',
       accounts: [privateKey]
+    },
+    goerli: {
+      url: "rpc",
+      account: [privateKey]
     }
   },
   solidity: "0.8.4",

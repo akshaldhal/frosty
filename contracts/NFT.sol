@@ -18,6 +18,7 @@ contract NFT is ERC721URIStorage, ReentrancyGuard{
 //TEST DOING TRANSACTION FROM ANOTHER NETWORK, goreli or something
 //using firebase for user data management OR fixed file
 //fix the approval thing to enable nft sales
+//add function to change network address
 
 
 
@@ -31,9 +32,7 @@ contract NFT is ERC721URIStorage, ReentrancyGuard{
         owner = payable(msg.sender);
     }
     struct MarketItem {
-        uint itemId;
         uint256 tokenId;
-        address payable seller;
         address payable owner;
         uint256 price;
         bool sold;
@@ -42,9 +41,7 @@ contract NFT is ERC721URIStorage, ReentrancyGuard{
     mapping(uint256 => MarketItem) private idToMarketItem;
 
     event MarketItemCreated (
-        uint indexed itemId,
         uint256 indexed tokenId,
-        address seller,
         address owner,
         uint price,
         bool sold,
@@ -60,24 +57,20 @@ contract NFT is ERC721URIStorage, ReentrancyGuard{
     uint256 price) public payable nonReentrant {
         _itemIds.increment();
         uint256 newItemId = _itemIds.current();
-        _mint(msg.sender, newItemId);
+        _mint(address(this), newItemId);
         _setTokenURI(newItemId, _tokenURI);
 
         require(price >= 0 ether, "Sellign price must be greater than 0 eth");
         idToMarketItem[newItemId] =  MarketItem(
             newItemId,
-            newItemId,
-            payable(msg.sender),
             payable(msg.sender),
             (price),
             false,
             payable(msg.sender));
-            transferFrom(msg.sender, msg.sender, newItemId);
+//            transferFrom(address(this), address(this), newItemId);
 
             emit MarketItemCreated(
                 newItemId,
-                newItemId,
-                msg.sender,
                 msg.sender,
                 (price),
                 false,
@@ -90,7 +83,7 @@ contract NFT is ERC721URIStorage, ReentrancyGuard{
     ) public payable nonReentrant {
         uint price = idToMarketItem[itemId].price;
         address payable original_owner = idToMarketItem[itemId].original_owner;
-        address payable current_owner = idToMarketItem[itemId].owner;
+        //address payable current_owner = idToMarketItem[itemId].owner;
         require(idToMarketItem[itemId].sold == false, "Item not for sale");
         require(msg.value >= price, "Please submit equal to or greater than asking price in order to complete the purchase");
 //        approve(msg.sender, itemId);
@@ -101,8 +94,8 @@ contract NFT is ERC721URIStorage, ReentrancyGuard{
         uint256 _original_owner_comission = price_percent*original_owner_comission;
         tmp = tmp - network_comission;
         tmp = tmp - _original_owner_comission;
-        idToMarketItem[itemId].seller.transfer(tmp);
-        transferFrom(current_owner, msg.sender, itemId);
+        idToMarketItem[itemId].owner.transfer(tmp);
+//      transferFrom(current_owner, msg.sender, itemId);
         idToMarketItem[itemId].owner = payable(msg.sender);
         idToMarketItem[itemId].sold = true;
         _itemsSold.increment();
@@ -159,14 +152,14 @@ contract NFT is ERC721URIStorage, ReentrancyGuard{
     uint currentIndex = 0;
 
     for (uint i = 0; i < totalItemCount; i++) {
-      if (idToMarketItem[i + 1].seller == msg.sender) {
+      if (idToMarketItem[i + 1].owner == msg.sender) {
         itemCount += 1;
       }
     }
 
     MarketItem[] memory items = new MarketItem[](itemCount);
     for (uint i = 0; i < totalItemCount; i++) {
-      if (idToMarketItem[i + 1].seller == msg.sender) {
+      if (idToMarketItem[i + 1].owner == msg.sender) {
         uint currentId = i + 1;
         MarketItem storage currentItem = idToMarketItem[currentId];
         items[currentIndex] = currentItem;

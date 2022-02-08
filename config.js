@@ -1,1 +1,1 @@
-export const nftaddress = "0x6A72a5DeCCd20da87BCA8D1F9ff934b3a8E85aB7"
+export const nftaddress = "0xED8917181C61d9A3802ec72B65E035aBd2bC5cc5"
