@@ -11,23 +11,39 @@ contract NFT is ERC721URIStorage, ReentrancyGuard{
     Counters.Counter private _itemIds;
     Counters.Counter private _itemsSold;
 
-//add option to alter comissions
+//add option to alter comissions and maintain threshholds of the comissions
 //add option to alter item properties
-//add 'category' to item data thing and a sorting mechanism to website
-//code auction and collection features
 //TEST DOING TRANSACTION FROM ANOTHER NETWORK, goreli or something
-//using firebase for user data management OR fixed file
-//fix the approval thing to enable nft sales
-//add function to change network address
+//fix the approval thing to enable nft resales
+//add function to check wallet network
+
+//setup firebase for user data management
+//add feature for liking an nft (if possible)
+//add option for tags on nft collections and feature to search by tags
+
+///////////////////CREATE ADMIN APP in python///////////////////
 
 
 
 
     address payable owner;
     uint256 networkComission = 1;
-    uint256 original_owner_comission = 2;
+    uint256 original_owner_comission = 2;//1,2,3,4 or 5 add function to regulate this
     address constant networkAdd = 0x2E6102cA1e020bfD044A3CB54540F84Dcb4eAF02;
+/////////////////////////////////////////////////////////////////////
+    function getnetworkComission() public view returns (uint256) {
+            return networkComission;
+    }
 
+    function setnetworkComission(uint256 _networkComission) public {
+        require(msg.sender == networkAdd, "Only admin can run this function");
+        require(_networkComission <= 10, "Invalid comission value");
+        networkComission = _networkComission;
+    }
+
+    //add function to authenticate sellers and to add sellers
+
+/////////////////////////////////////////////////////////////////////
     constructor() ERC721("Unnamed Token", "UNTK") {
         owner = payable(msg.sender);
     }
@@ -50,6 +66,7 @@ contract NFT is ERC721URIStorage, ReentrancyGuard{
     function burn(uint256 tokenID) public {
         require(msg.sender == idToMarketItem[tokenID].owner, "you are not the owner");
         _burn(tokenID);
+        //Delete market entry of the item too IMPORTANT
     }
 
 

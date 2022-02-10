@@ -8,7 +8,7 @@
   z-index: 10;
   background-color: black;
   animation-name: reveal_in;
-  animation-duration: 1s;
+  animation-duration: 0.1s;
 }
 .anim_loader_image_in{
   opacity: 1;
@@ -19,7 +19,7 @@
   width: 25%;
   z-index: 10;
   animation-name: reveal_in;
-  animation-duration: 2s;
+  animation-duration: 0.2s;
 }
 
 @keyframes reveal_in {

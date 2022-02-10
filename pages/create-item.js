@@ -14,6 +14,9 @@ import {
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
 
 export default function CreateItem() {
+////////////////////////////////////////
+  const network = "rinkeby"
+////////////////////////////////////////
   const [fileUrl, setFileUrl] = useState(null)
   const [formInput, updateFormInput] = useState({ price: '', name: '', description: '' })
   const router = useRouter()
@@ -53,7 +56,8 @@ export default function CreateItem() {
   async function createSale(url) {
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
-    const provider = new ethers.providers.Web3Provider(connection)    
+    const provider = new ethers.providers.Web3Provider(connection, network)
+
     const signer = provider.getSigner()
 
     /* next, create the item */

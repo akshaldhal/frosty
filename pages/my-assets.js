@@ -1,4 +1,5 @@
 /* pages/my-assets.js */
+//show all assets owned, different color or hint for assets not on sale
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import axios from 'axios'

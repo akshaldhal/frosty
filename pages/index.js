@@ -11,6 +11,9 @@ import {
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
 
 export default function Home() {
+////////////////////////////////////////
+  const network = "rinkeby"
+////////////////////////////////////////
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState('not-loaded')
   useEffect(() => {
@@ -18,6 +21,7 @@ export default function Home() {
   }, [])
   async function loadNFTs() {
     /* create a generic provider and query for unsold market items */
+    //////FIX RPC PROVIDOR LINKUP//////
     const provider = new ethers.providers.JsonRpcProvider("https://eth-rinkeby.alchemyapi.io/v2/4_Dz0RHPqAe46ppd7fO4wYHVuZoP8zyY")
     const marketContract = new ethers.Contract(nftaddress, NFT.abi, provider)
     const data = await marketContract.fetchMarketItems()
@@ -46,9 +50,10 @@ export default function Home() {
   }
   async function buyNft(nft) {
     /* needs the user to sign the transaction, so will use Web3Provider and sign it */
-    const web3Modal = new Web3Modal()
+    const web3Modal = new Web3Modal({cacheProvider: true})
     const connection = await web3Modal.connect()
-    const provider = new ethers.providers.Web3Provider(connection)
+    //fix network linkup through env var
+    const provider = new ethers.providers.Web3Provider(connection, network)
     const signer = provider.getSigner()
     const contract = new ethers.Contract(nftaddress, NFT.abi, signer)
 
