@@ -60,3 +60,40 @@
         z-index: -10;
       }
   }
+
+.backgroundOverlayLayer{
+  z-index: -5;
+  height: 100%;
+  width: 100%;
+  position: fixed absolute;
+  background: black;
+}
+
+.navBackground{
+  background-color: black;
+}
+.navIco{
+  padding: 0.5%;
+  z-index: 1;
+  height: 75px;
+  width: auto;
+}
+
+.navText{
+  color: white;
+  text-decoration: none;
+  font-size: medium;
+  position: absolute;
+  top: 5%;
+  left: 10%;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.textColor{
+  color: #52f8b4;
+}
+
+.roundElementFrame{
+  background-color: #3d3838;
+  border-radius: 15px;
+  border: 1px solid #52f8b4;
+}

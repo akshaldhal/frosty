@@ -19,6 +19,8 @@ contract NFT is ERC721URIStorage, ReentrancyGuard{
 
 //setup firebase for user data management
 //add feature for liking an nft (if possible)
+//nft metadata to blockchain thing
+//probably remove the erc721 contract thing
 //add option for tags on nft collections and feature to search by tags
 
 ///////////////////CREATE ADMIN APP in python///////////////////
