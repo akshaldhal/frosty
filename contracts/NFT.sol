@@ -17,21 +17,27 @@ contract NFT is ERC721URIStorage, ReentrancyGuard{
 //fix the approval thing to enable nft resales
 //add function to check wallet network
 
-//setup firebase for user data management
+//use erc721 interface!!!
+//make intercompatibility thing
+
+//setup moralis for user data management
 //add feature for liking an nft (if possible)
 //nft metadata to blockchain thing
 //probably remove the erc721 contract thing
 //add option for tags on nft collections and feature to search by tags
 
-///////////////////CREATE ADMIN APP in python///////////////////
+//add function to change networkAdd variable
+//add function to round the price thing on nft's for ensuring the percentages are working out fine
+
+///////////////////CREATE ADMIN APP///////////////////
 
 
 
 
     address payable owner;
     uint256 networkComission = 1;
-    uint256 original_owner_comission = 2;//1,2,3,4 or 5 add function to regulate this
-    address constant networkAdd = 0x2E6102cA1e020bfD044A3CB54540F84Dcb4eAF02;
+    uint256 original_owner_comission = 2;//upto 10%, add function to regulate this
+    address networkAdd = 0x2E6102cA1e020bfD044A3CB54540F84Dcb4eAF02;
 /////////////////////////////////////////////////////////////////////
     function getnetworkComission() public view returns (uint256) {
             return networkComission;
@@ -105,8 +111,6 @@ contract NFT is ERC721URIStorage, ReentrancyGuard{
         //address payable current_owner = idToMarketItem[itemId].owner;
         require(idToMarketItem[itemId].sold == false, "Item not for sale");
         require(msg.value >= price, "Please submit equal to or greater than asking price in order to complete the purchase");
-//        approve(msg.sender, itemId);
-//        didn't work
         uint256 tmp = msg.value;
         uint256 price_percent = msg.value/100;
         uint256 network_comission = price_percent*networkComission;

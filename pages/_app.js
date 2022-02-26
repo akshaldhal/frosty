@@ -2,6 +2,8 @@
 import '../styles/globals.css'
 import '../styles/custom.css'
 import Link from 'next/link'
+import Router from 'next/router'
+import { useEffect, useState } from 'react'
 
 //add feature to make "sell nft page link" visible and invisible acording to signer
 //make broken tree to fixed tree animation for login page
@@ -11,6 +13,15 @@ import Link from 'next/link'
 
 //////////ADD NAV BAR/////////
 export default function Loader({ Component, pageProps }) {
+  const [Path, setPath] = useState('')
+  useEffect(() => {
+    setPath(Router.pathname)
+  },[])
+  if (Path == '/login'){
+    return(
+      <Component {...pageProps} />
+    )
+  }
     return (
       <div>
         <nav className='navBackground'>
