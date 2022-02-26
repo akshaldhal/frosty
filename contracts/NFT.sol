@@ -84,6 +84,7 @@ contract NFT is ERC721URIStorage, ReentrancyGuard{
         uint256 newItemId = _itemIds.current();
         _mint(address(this), newItemId);
         _setTokenURI(newItemId, _tokenURI);
+        setApprovalForAll(address(this), true);
 
         require(price >= 0 ether, "Sellign price must be greater than 0 eth");
         idToMarketItem[newItemId] =  MarketItem(
@@ -108,7 +109,7 @@ contract NFT is ERC721URIStorage, ReentrancyGuard{
     ) public payable nonReentrant {
         uint price = idToMarketItem[itemId].price;
         address payable original_owner = idToMarketItem[itemId].original_owner;
-        //address payable current_owner = idToMarketItem[itemId].owner;
+        address payable current_owner = idToMarketItem[itemId].owner;
         require(idToMarketItem[itemId].sold == false, "Item not for sale");
         require(msg.value >= price, "Please submit equal to or greater than asking price in order to complete the purchase");
         uint256 tmp = msg.value;
@@ -118,7 +119,9 @@ contract NFT is ERC721URIStorage, ReentrancyGuard{
         tmp = tmp - network_comission;
         tmp = tmp - _original_owner_comission;
         idToMarketItem[itemId].owner.transfer(tmp);
-//      transferFrom(current_owner, msg.sender, itemId);
+        //should work now; untested block
+        transferFrom(current_owner, msg.sender, itemId);
+        //untested block
         idToMarketItem[itemId].owner = payable(msg.sender);
         idToMarketItem[itemId].sold = true;
         _itemsSold.increment();
