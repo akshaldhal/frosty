@@ -16,6 +16,7 @@ contract NFT is ERC721URIStorage, ReentrancyGuard{
 //TEST DOING TRANSACTION FROM ANOTHER NETWORK, goreli or something
 //fix the approval thing to enable nft resales
 //add function to check wallet network
+//"Unified Marketplace Contract Token", "UMCT"
 
 //use erc721 interface!!!
 //make intercompatibility thing
@@ -52,7 +53,7 @@ contract NFT is ERC721URIStorage, ReentrancyGuard{
     //add function to authenticate sellers and to add sellers
 
 /////////////////////////////////////////////////////////////////////
-    constructor() ERC721("Unnamed Token", "UNTK") {
+    constructor() ERC721("Unified Market Contract Token", "UMCT") {
         owner = payable(msg.sender);
     }
     struct MarketItem {
